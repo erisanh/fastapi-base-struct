@@ -2,7 +2,6 @@
 Defines custom exceptions for database connection errors.
 """
 
-
 class DatabaseError(Exception):
     """Base exception for all the database related errors
 

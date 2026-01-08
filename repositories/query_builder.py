@@ -84,9 +84,6 @@ def query_builder(
         ... )
         >>> result = await db.execute(query)
         >>> items = result.scalars().all()
-
-    Author:
-        donguyenanhgithub@gmail.com
     """
     # Start a SELECT statement
     base_query = select(model)
@@ -142,9 +139,6 @@ def get_class_by_tablename(tablename: str):
     Example:
         >>> get_class_by_tablename("items")
         <class 'app.models.ItemModel'>
-
-    Author:
-        donguyenanhgithub@gmail.com
     """
     for c in Base._decl_class_registry.values():
         if hasattr(c, "__tablename__") and c.__tablename__ == tablename:
@@ -164,9 +158,6 @@ def get_join_table(join: dict) -> list:
     Example:
         >>> get_join_table({"b": {}})
         ['b']
-
-    Author:
-        donguyenanhgithub@gmail.com
     """
     if isinstance(join, dict):
         return [key for key, _ in join.items()]
@@ -188,9 +179,6 @@ def get_filter(
 
     Example:
         >>> get_filter(ItemModel, {"title__like": "%a%", "id__gte": 1})
-
-    Author:
-        donguyenanhgithub@gmail.com
     """
     if isinstance(filters, list):
         # e.g. filter=[{"title__like": "%a%"}, {"id__gte":1}] => OR
@@ -225,8 +213,6 @@ def get_count(query: sqlalchemy.sql.Select):
         >>> result = await db.execute(count_query)
         >>> total = result.scalar()
 
-    Author:
-        donguyenanhgithub@gmail.com
     """
     return select(func.count()).select_from(query.subquery())
 
@@ -245,8 +231,6 @@ def get_include(include: str) -> list:
         >>> get_include("owner,category")
         [selectinload("owner"), selectinload("category")]
 
-    Author:
-        donguyenanhgithub@gmail.com
     """
     return [selectinload(r.strip()) for r in include.split(",")]
 
@@ -265,9 +249,6 @@ def get_order_by(model: Type[ModelType], order_by: str) -> list:
     Example:
         >>> get_order_by(ItemModel, "-created_at,name")
         [ItemModel.created_at.desc(), ItemModel.name.asc()]
-
-    Author:
-        donguyenanhgithub@gmail.com
     """
     orders = []
     for od in order_by.split(","):
@@ -297,8 +278,6 @@ def get_attr_order(model: Type[ModelType], attr: str):
         >>> get_attr_order(ItemModel, "-created_at")
         ItemModel.created_at.desc()
 
-    Author:
-        donguyenanhgithub@gmail.com
     """
     # This is no longer used if we directly parse order_by in get_order_by
     if attr.startswith("-"):
@@ -322,8 +301,6 @@ def get_op(model: Type[ModelType], key: str, value: str):
         >>> get_op(ItemModel, "title__like", "%test%")
         ItemModel.title.like('%test%')
 
-    Author:
-        donguyenanhgithub@gmail.com
     """
     from sqlalchemy.sql.expression import cast
 
